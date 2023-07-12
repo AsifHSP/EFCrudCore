@@ -1,5 +1,4 @@
 ﻿using EntityFrameWorkCodeFirstApproach.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EntityFrameWorkCodeFirstApproach.Controllers
@@ -8,11 +7,11 @@ namespace EntityFrameWorkCodeFirstApproach.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly UserContext   userContext;
+        private readonly CurdDbContext crudDbContext;
 
-        public UsersController(UserContext userContext)
+        public UsersController(CurdDbContext crudDbContext)
         {
-            this.userContext = userContext;
+            this.crudDbContext = crudDbContext;
         }
 
 
@@ -22,7 +21,7 @@ namespace EntityFrameWorkCodeFirstApproach.Controllers
         [Route("GetUsers")]
         public List<Users> GetUsers()
         {
-            return userContext.Users.ToList();
+            return crudDbContext.Users.ToList();
         }
 
         //Get single user data via id
@@ -31,18 +30,18 @@ namespace EntityFrameWorkCodeFirstApproach.Controllers
         [Route("GetUser")]
         public Users GetUser(int id)
         {
-            return  userContext.Users.Where(x =>x.ID == id).FirstOrDefault();
+            return crudDbContext.Users.Where(x => x.ID == id).FirstOrDefault();
         }
 
-        //All data of Users in Users Table.
+        //Insert data of Users in Users Table.
         [HttpPost]
 
         [Route("AddUsers")]
         public string AddUser(Users users)
         {
             //string response = string.empty;
-            userContext.Users.Add(users);
-            userContext.SaveChanges();
+            crudDbContext.Users.Add(users);
+            crudDbContext.SaveChanges();
             return "User Added";
         }
 
@@ -53,8 +52,8 @@ namespace EntityFrameWorkCodeFirstApproach.Controllers
 
         public string UpdateUser(Users users)
         {
-            userContext.Entry(users).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            userContext.SaveChanges();
+            crudDbContext.Entry(users).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            crudDbContext.SaveChanges();
             return "User Updated.";
         }
 
@@ -63,14 +62,14 @@ namespace EntityFrameWorkCodeFirstApproach.Controllers
         [HttpDelete]
         [Route("DeleteUser")]
 
-        public string DeleteUser(int id)      
+        public string DeleteUser(int id)
         {
-            Users user = userContext.Users.Where(x => x.ID == id).FirstOrDefault();
-            if(user != null)
+            Users user = crudDbContext.Users.Where(x => x.ID == id).FirstOrDefault();
+            if (user != null)
             {
-            userContext.Users.Remove(user); 
-            userContext.SaveChanges();
-            return "User Delelted";
+                crudDbContext.Users.Remove(user);
+                crudDbContext.SaveChanges();
+                return "User Delelted";
             }
             else
             {
@@ -78,5 +77,5 @@ namespace EntityFrameWorkCodeFirstApproach.Controllers
             }
         }
     }
-    
+
 }
