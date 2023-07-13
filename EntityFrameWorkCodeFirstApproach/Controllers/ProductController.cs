@@ -41,6 +41,36 @@ namespace EntityFrameWorkCodeFirstApproach.Controllers
             crudDbContext.SaveChanges();
             return "Product Added";
         }
+
+        //Update the product data in Product Table
+        [HttpPut]
+        [Route("UpdateProduct")]
+        public string UpdateProduct(Product product) 
+        {
+            crudDbContext.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            crudDbContext.SaveChanges();
+            return "Update Product.";
+        }
+
+        // Delete Product from Product Table
+
+        [HttpDelete]
+        [Route("DeleteProduct")]
+
+        public string DeleteProduct(int id)
+        {
+            Product product = crudDbContext.Products.Where(x => x.Id == id).FirstOrDefault();
+            if (product != null)
+            {
+                crudDbContext.Products.Remove(product);
+                crudDbContext.SaveChanges();
+                return "Product Delelted";
+            }
+            else
+            {
+                return "No user found.";
+            }
+        }
     }
 }
 
