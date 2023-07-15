@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EntityFrameWorkCodeFirstApproach.Models
 {
@@ -14,6 +15,11 @@ namespace EntityFrameWorkCodeFirstApproach.Models
         public virtual ProductFreshness ProductFreshness { get; set; }
         public int Price { get; set; }
         public string Comment { get; set; }
+
+        [NotMapped]
+        public string ProductCategoryName { get; set; }
+        [NotMapped]
+        public string ProductFreshnessName { get; set; }
 
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFrameWorkCodeFirstApproach.Migrations
 {
     [DbContext(typeof(CurdDbContext))]
-    [Migration("20230712071904_initial migration")]
-    partial class initialmigration
+    [Migration("20230715053301_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
