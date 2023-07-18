@@ -1,4 +1,5 @@
-﻿using EntityFrameWorkCodeFirstApproach.Models;
+﻿using EntityFrameWorkCodeFirstApproach.Dto;
+using EntityFrameWorkCodeFirstApproach.Models;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ namespace EntityFrameWorkCodeFirstApproach.Controllers
     public class ProductController : ControllerBase
     {
         private readonly CurdDbContext crudDbContext;
+        private Response response = new Response();
 
         public ProductController(CurdDbContext crudDbContext)
         {
@@ -73,11 +75,20 @@ namespace EntityFrameWorkCodeFirstApproach.Controllers
         //Update the product data in Product Table
         [HttpPut]
         [Route("UpdateProduct")]
-        public string UpdateProduct( Product product) 
-        {          
-            crudDbContext.Entry(product).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            crudDbContext.SaveChanges();
-            return "Update Product.";
+        public Response UpdateProduct( Product product) 
+        {
+            try
+            {
+                crudDbContext.Entry(product).State = EntityState.Modified;
+                crudDbContext.SaveChanges();
+                response.Message = "Product Updated Successfully.";
+            }
+            catch (Exception ex)
+            {
+
+                response.Message = ex.Message;
+            }
+            return response;
         }
 
         // Delete Product from Product Table
@@ -98,7 +109,7 @@ namespace EntityFrameWorkCodeFirstApproach.Controllers
             {
                 return "No user found.";
             }
-        }
+        }   
     }
 }
 
